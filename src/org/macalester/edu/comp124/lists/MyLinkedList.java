@@ -1,5 +1,7 @@
 package org.macalester.edu.comp124.lists;
 
+import com.sun.tools.classfile.Annotation;
+
 /**
  * An unfinished implementation of a basic doubly-linked list.
  *
@@ -10,9 +12,9 @@ package org.macalester.edu.comp124.lists;
  * @param <E>
  */
 public class MyLinkedList<E> {
-	private MyLinkedNode<E> head;
-	private MyLinkedNode<E> tail;
-	private int numElements = 0;
+	public MyLinkedNode<E> head;
+	public MyLinkedNode<E> tail;
+	public int numElements = 0;
 
     /**
      * Creates a new empty linked list.
@@ -29,7 +31,13 @@ public class MyLinkedList<E> {
      * @return
      */
 	public E get(int index) {
-		return null;
+		MyLinkedNode<E> temp = new MyLinkedNode<E>(null);
+        temp = head.getNext();
+        for (int i = 0; i < index; i++){
+            temp = temp.getNext();
+        }
+        return temp.getValue();
+
 	}
 
     /**
@@ -38,6 +46,13 @@ public class MyLinkedList<E> {
      * @param elem
      */
 	public void add(E elem) {
+        MyLinkedNode<E> newnode = new MyLinkedNode<E>(elem);
+        MyLinkedNode<E> lastnode = tail.getPrev();
+        tail.setPrev(newnode);
+        newnode.setNext(tail);
+        newnode.setPrev(lastnode);
+        lastnode.setNext(newnode);
+        numElements = numElements + 1;
 	}
 
     /**
@@ -46,6 +61,15 @@ public class MyLinkedList<E> {
      * @param elem
      */
 	public void add(int i, E elem) {
+        MyLinkedNode<E> temp = new MyLinkedNode<E>(elem);
+        MyLinkedNode<E> dec = new MyLinkedNode<E>(null);
+        dec = head.getNext();
+        for (int x = 0; x < i; x++){
+            dec = dec.getNext();
+        }
+        dec.getPrev().setNext(temp);
+        temp.setNext(dec);
+        numElements = numElements + 1;
 	}
 
     /**
@@ -79,3 +103,4 @@ public class MyLinkedList<E> {
     MyLinkedNode getHead() { return head; }
     MyLinkedNode getTail() { return tail; }
 }
+
